@@ -12,7 +12,7 @@ An attempt at an Object Pascal Parser.
 
 ## Objectives
 
-The main objective of this endeavour is to primiraly to learn about tokenization and parsing, but also to attempt to decouple the [Object Pascal LSP](https://github.com/genericptr/pascal-language-server) from Lazarus.
+The main objective of this endeavour is primiraly to learn about tokenization and parsing, but it's also an attempt at decoupling the [Object Pascal LSP](https://github.com/genericptr/pascal-language-server) from Lazarus.
 
 ## Disclaimer
 
@@ -21,4 +21,4 @@ This is my initial attempt at something like this, with only some tidbits of inf
 
 ## Plea for help
 
-I welcome any input, or __constructive__ criticism on my effort, since I'm quite aware that I'll need a **ton** of help with this thing!!
+I welcome any input, or __constructive__ criticism of this effort, since I'm quite aware that I'll need a **ton** of help with this thing!!

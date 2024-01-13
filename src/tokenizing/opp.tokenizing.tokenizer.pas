@@ -37,7 +37,7 @@ type
     constructor Create(const AStream: TStream);
     destructor Destroy; override;
 
-    function GetToken: TToken;
+    function GetNextToken: TToken;
   published
   end;
 
@@ -95,7 +95,7 @@ begin
   AToken.Element:= EmptyStr;
 end;
 
-function TTokenizingTokenizer.GetToken: TToken;
+function TTokenizingTokenizer.GetNextToken: TToken;
 var
   bytesRead: Integer = 0;
 begin

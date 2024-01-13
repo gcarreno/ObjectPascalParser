@@ -9,3 +9,16 @@
 [![Downloads](https://img.shields.io/github/downloads/gcarreno/ObjectPascalParser/total)](https://github.com/gcarreno/ObjectPascalParser/releases)
 
 An attempt at an Object Pascal Parser.
+
+## Objectives
+
+The main objective of this endeavour is to primiraly to learn about tokenization and parsing, but also to attempt to decouple the [Object Pascal LSP](https://github.com/genericptr/pascal-language-server) from Lazarus.
+
+## Disclaimer
+
+I'm not, in any way, remotely knowledgeable enough to even understand what I'm doing correctly or other wise.
+This is my initial attempt at something like this, with only some tidbits of information, gathered here and there, in light conversations about the subject.
+
+## Plea for help
+
+I welcome any input, or __constructive__ criticism on my effort, since I'm quite aware that I'll need a **ton** of help with this thing!!

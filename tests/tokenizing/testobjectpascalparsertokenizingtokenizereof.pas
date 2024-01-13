@@ -51,7 +51,7 @@ begin
   FStringStream:= TStringStream.Create(EmptyStr);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 0', 0, FToken.Line);
@@ -68,7 +68,7 @@ begin
   FStringStream:= TStringStream.Create(cSpace);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
@@ -85,7 +85,7 @@ begin
   FStringStream:= TStringStream.Create(cTab);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
@@ -102,7 +102,7 @@ begin
   FStringStream:= TStringStream.Create(cSpace + cTab);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
@@ -119,7 +119,7 @@ begin
   FStringStream:= TStringStream.Create(cTab + cSpace);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
@@ -136,13 +136,13 @@ begin
   FStringStream:= TStringStream.Create(cEOLLF);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
     AssertEquals('Tokenizing Tokenizer Token Element is LF', cEOLLF, FToken.Element);
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
@@ -159,13 +159,13 @@ begin
   FStringStream:= TStringStream.Create(cEOLCR);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
     AssertEquals('Tokenizing Tokenizer Token Element is CR', cEOLCR, FToken.Element);
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
@@ -182,13 +182,13 @@ begin
   FStringStream:= TStringStream.Create(cEOLCR+cEOLLF);
   FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
   try
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
     AssertEquals('Tokenizing Tokenizer Token Element is CRLF', cEOLCRLF, FToken.Element);
-    FToken:= FTokenisingTokenizer.GetToken;
+    FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);

@@ -1,0 +1,44 @@
+name: Lazarus Main Workflow
+
+permissions:
+  contents: write
+
+on:
+
+  push:
+    branches: [ main ]
+    tags: [ "*" ]
+    paths-ignore: [ "README.md", "CHANGELOG.md", "cliff.toml" ]
+
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  test:
+    name: 01 - Test Application
+    uses: gcarreno/re-usable-workflows/.github/workflows/test.lazarus.yml@main
+    with:
+      config: '{
+          "app-name": "TestObjectPascalParser",
+          "lpi-path": "tests",
+          "bin-path": "bin",
+          "build-mode": "Release",
+          "lazarus-packages": "",
+          "what-suite": "all",
+          "output-format": "plain",
+          "matrix": {
+            "os":[
+              "ubuntu-latest",
+              "windows-latest",
+              "macos-latest"
+            ],
+            "lazarus-versions": [
+              "stable",
+              "2.2.6"
+            ]
+          }
+        }'
+
+    strategy:
+      fail-fast: true

@@ -7,6 +7,8 @@ uses
 , consoletestrunner
 , TestObjectPascalParserStatesStack
 , TestObjectPascalParserStatesStackTokens
+, TestObjectPascalParserTokenizingTokenizer
+, TestObjectPascalParserTokenizingTokenizerEOF
 ;
 
 type

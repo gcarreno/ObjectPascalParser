@@ -29,7 +29,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="10">
       <Unit0>
         <Filename Value="TestObjectPascalParser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -59,6 +59,26 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.States.StackTokens"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserTokenizingTokenizer"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../src/tokenizing/opp.tokenizing.tokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Tokenizing.Tokens"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../src/tokenizing/opp.tokenizing.tokenizer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Tokenizing.Tokenizer"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizereof.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserTokenizingTokenizerEOF"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -68,7 +88,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="states;../src/states"/>
+      <OtherUnitFiles Value="states;../src/states;tokenizing;../src/tokenizing"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -78,7 +98,7 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
+    <Exceptions Count="4">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -88,6 +108,9 @@
       <Item3>
         <Name Value="EFOpenError"/>
       </Item3>
+      <Item4>
+        <Name Value="EStatesStackEmpty"/>
+      </Item4>
     </Exceptions>
   </Debugging>
 </CONFIG>

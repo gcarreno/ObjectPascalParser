@@ -8,4 +8,4 @@
 [![Latest Release](https://img.shields.io/github/v/release/gcarreno/ObjectPascalParser?label=latest%20release)](https://github.com/gcarreno/ObjectPascalParser/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/gcarreno/ObjectPascalParser/total)](https://github.com/gcarreno/ObjectPascalParser/releases)
 
-An attempt at an Object Pascal Parser
+An attempt at an Object Pascal Parser.

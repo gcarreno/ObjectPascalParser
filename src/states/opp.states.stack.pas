@@ -76,7 +76,12 @@ end;
 
 function TStatesStack.Peek: Cardinal;
 begin
-  Result:= FStack[FTail];
+  if FTail > -1 then
+  begin
+    Result:= FStack[FTail];
+  end
+  else
+    raise EStatesStackEmpty.Create(rsEStatesStackEmpty);
 end;
 
 end.

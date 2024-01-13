@@ -23,6 +23,9 @@ type
     FStatesStack: TStatesStack;
 
     procedure RunPopException;
+  protected
+    procedure SetUp; override;
+    procedure TearDown; override;
   published
     procedure TestStatesStackCreate;
     procedure TestStatesStackPush;
@@ -38,71 +41,58 @@ begin
   FStatesStack.Pop;
 end;
 
+procedure TTestSates.SetUp;
+begin
+  inherited SetUp;
+  FStatesStack:= TStatesStack.Create;
+end;
+
+procedure TTestSates.TearDown;
+begin
+  inherited TearDown;
+  FStatesStack.Free;
+end;
+
 procedure TTestSates.TestStatesStackCreate;
 begin
-  FStatesStack:= TStatesStack.Create;
-  try
-    AssertEquals('State Stack Count is 0', 0, FStatesStack.Count);
-  finally
-    FStatesStack.Free;
-  end;
+  AssertEquals('States Stack Count is 0', 0, FStatesStack.Count);
 end;
 
 procedure TTestSates.TestStatesStackPush;
 begin
-  FStatesStack:= TStatesStack.Create;
-  try
-    FStatesStack.Push(0);
-    AssertEquals('State Stack Count is 1', 1, FStatesStack.Count);
-  finally
-    FStatesStack.Free;
-  end;
+  FStatesStack.Push(0);
+  AssertEquals('States Stack Count is 1', 1, FStatesStack.Count);
 end;
 
 procedure TTestSates.TestStatesStackPop;
 var
   state: Cardinal;
 begin
-  FStatesStack:= TStatesStack.Create;
-  try
-    FStatesStack.Push(1);
-    AssertEquals('State Stack Count is 1', 1, FStatesStack.Count);
-    state:= FStatesStack.Pop;
-    AssertEquals('State Stack Count is 0', 0, FStatesStack.Count);
-    AssertEquals('State Stack State is 1', 1, state);
-  finally
-    FStatesStack.Free;
-  end;
+  FStatesStack.Push(1);
+  AssertEquals('States Stack Count is 1', 1, FStatesStack.Count);
+  state:= FStatesStack.Pop;
+  AssertEquals('States Stack Count is 0', 0, FStatesStack.Count);
+  AssertEquals('States Stack State Pop is 1', 1, state);
 end;
 
 procedure TTestSates.TestStatesStackPopException;
 begin
-  FStatesStack:= TStatesStack.Create;
-  try
-    AssertException('State Stack Exception Empty',
-      EStatesStackEmpty,
-      @RunPopException,
-      rsEStatesStackEmpty
-    );
-  finally
-    FStatesStack.Free;
-  end;
+  AssertException('States Stack Exception Empty',
+    EStatesStackEmpty,
+    @RunPopException,
+    rsEStatesStackEmpty
+  );
 end;
 
 procedure TTestSates.TestStatesStackPeek;
 var
   state: Cardinal;
 begin
-  FStatesStack:= TStatesStack.Create;
-  try
-    FStatesStack.Push(2);
-    AssertEquals('State Stack Count is 1', 1, FStatesStack.Count);
-    state:= FStatesStack.Peek;
-    AssertEquals('State Stack Count is 1', 1, FStatesStack.Count);
-    AssertEquals('State Stack State is 2', 2, state);
-  finally
-    FStatesStack.Free;
-  end;
+  FStatesStack.Push(2);
+  AssertEquals('States Stack Count is 1', 1, FStatesStack.Count);
+  state:= FStatesStack.Peek;
+  AssertEquals('States Stack Count is 1', 1, FStatesStack.Count);
+  AssertEquals('States Stack State Peek is 2', 2, state);
 end;
 
 

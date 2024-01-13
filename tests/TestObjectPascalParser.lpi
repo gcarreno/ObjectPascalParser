@@ -29,7 +29,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="6">
       <Unit0>
         <Filename Value="TestObjectPascalParser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -49,6 +49,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.States.Stack"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="states/testobjectpascalparserstatesstacktokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserStatesStackTokens"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../src/states/opp.states.stacktokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.States.StackTokens"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

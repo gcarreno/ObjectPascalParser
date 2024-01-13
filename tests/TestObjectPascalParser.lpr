@@ -6,6 +6,7 @@ uses
   Classes
 , consoletestrunner
 , TestObjectPascalParserStatesStack
+, TestObjectPascalParserStatesStackTokens
 ;
 
 type

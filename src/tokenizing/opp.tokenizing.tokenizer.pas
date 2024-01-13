@@ -112,7 +112,7 @@ begin
   repeat
     // Read one char at a time
     { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
-    bytesRead:= FStream.ReadData(FCurrentChar, 1);
+    bytesRead:= FStream.Read(FCurrentChar, 1);
 
     // This is EOF
     if bytesRead = 0 then

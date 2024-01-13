@@ -41,4 +41,4 @@ jobs:
         }'
 
     strategy:
-      fail-fast: true
+      fail-fast: false

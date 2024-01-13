@@ -39,6 +39,4 @@ jobs:
             ]
           }
         }'
-
-    strategy:
       fail-fast: false

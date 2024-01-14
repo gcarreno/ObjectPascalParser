@@ -90,7 +90,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="13">
       <Unit0>
         <Filename Value="TestObjectPascalParserCLI.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -110,6 +110,49 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.Text.SourceFile"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="states/testobjectpascalparserstatesstack.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserStatesStack"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../src/states/opp.states.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../src/states/opp.states.stack.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="states/testobjectpascalparserstatesstacktokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserStatesStackTokens"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../src/states/opp.states.stacktokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.States.StackTokens"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserTokenizingTokenizer"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../src/tokenizing/opp.tokenizing.tokens.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Tokenizing.Tokens"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../src/tokenizing/opp.tokenizing.tokenizer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Tokenizing.Tokenizer"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizereof.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParserTokenizingTokenizerEOF"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

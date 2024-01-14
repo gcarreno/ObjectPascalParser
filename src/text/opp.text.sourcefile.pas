@@ -17,6 +17,7 @@ type
 { TTextSourceFile }
   TTextSourceFile = class(TObject)
   private
+    FFilename: String;
     FSourceFileStream: TFileStream;
   protected
   public
@@ -24,6 +25,9 @@ type
     destructor Destroy; override;
 
     function GetNextChar: TTextCharacter;
+
+    property Filename: String
+      read FFilename;
   published
   end;
 
@@ -44,6 +48,7 @@ begin
     )
   );
 
+  FFilename:= AFileName;
   FSourceFileStream:= TFileStream.Create(AFileName, fmOpenRead);
 end;
 

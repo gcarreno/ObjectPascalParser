@@ -22,10 +22,13 @@ type
   private
     FSourceFile: TTextSourceFile;
 
+    function DumpToTempFile(const AContent: String): String;
+
     procedure TestSourceFileCreateException;
   published
     procedure TestObjectPascalParserTextSourceFileCreate;
     procedure TestObjectPascalParserTextSourceFileCreateError;
+    procedure TestObjectPascalParserTextSourceFileFilename;
   end;
 
 implementation
@@ -33,32 +36,39 @@ implementation
 const
   cSourceFileContentUTF8 = 'program Test🌟';
 
+function TTestObjectPascalParserTextSourceFile.DumpToTempFile(
+  const AContent: String): String;
+var
+  tmpFilename: String;
+  stringStream: TstringStream;
+begin
+  Result:= EmptyStr;
+  stringStream:= TStringStream.Create(cSourceFileContentUTF8);
+  try
+    tmpFilename:= GetTempFileName;
+    stringStream.SaveToFile(tmpFilename);
+  finally
+    stringStream.Free;
+  end;
+  Result:= tmpFilename;
+end;
+
 procedure TTestObjectPascalParserTextSourceFile.TestSourceFileCreateException;
 begin
   FSourceFile:= TTextSourceFile.Create('');
 end;
 
 procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceFileCreate;
-var
-  stringStream: TstringStream;
-  tmpFilename: String;
 begin
-  stringStream:= TStringStream.Create(cSourceFileContentUTF8);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentUTF8));
   try
-    tmpFilename:= GetTempFileName;
-    stringStream.SaveToFile(tmpFilename);
-    try
-
-      FSourceFile:= TTextSourceFile.Create(tmpFilename);
-      AssertNotNull('Text Source File is not null', FSourceFile);
-      // Assert file is of type tftUTF8
-
-    finally
-      DeleteFile(tmpFilename);
-    end;
+    AssertNotNull('Text Source File is not null', FSourceFile);
+    // Assert file is of type tftUTF8
   finally
-    stringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
+
 end;
 
 procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceFileCreateError;
@@ -74,6 +84,19 @@ begin
     )
   );
   if Assigned(FSourceFile) then FSourceFile.Free;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceFileFilename;
+var
+  tmpFilename: String;
+begin
+  tmpFilename:= DumpToTempFile('');
+  FSourceFile:= TTextSourceFile.Create(tmpFilename);
+  try
+    AssertEquals('Text Source File Filename', tmpFilename, FSourceFile.Filename);
+  finally
+    FSourceFile.Free;
+  end;
 end;
 
 

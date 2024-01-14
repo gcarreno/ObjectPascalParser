@@ -20,7 +20,7 @@ jobs:
     uses: gcarreno/re-usable-workflows/.github/workflows/test.lazarus.yml@main
     with:
       config: '{
-          "app-name": "TestObjectPascalParser",
+          "app-name": "TestObjectPascalParserCLI",
           "lpi-path": "tests",
           "bin-path": "bin",
           "build-mode": "Release",

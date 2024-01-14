@@ -1,14 +1,15 @@
-program TestObjectPascalParser;
+program TestObjectPascalParserCLI;
 
 {$mode objfpc}{$H+}
 
 uses
   Classes
 , consoletestrunner
-, TestObjectPascalParserStatesStack
-, TestObjectPascalParserStatesStackTokens
-, TestObjectPascalParserTokenizingTokenizer
-, TestObjectPascalParserTokenizingTokenizerEOF
+, TestObjectPascalParserTextSourceFile
+//, TestObjectPascalParserStatesStack
+//, TestObjectPascalParserStatesStackTokens
+//, TestObjectPascalParserTokenizingTokenizer
+//, TestObjectPascalParserTokenizingTokenizerEOF
 ;
 
 type

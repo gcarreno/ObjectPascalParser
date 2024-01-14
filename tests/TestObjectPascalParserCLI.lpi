@@ -10,7 +10,7 @@
         <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="TestObjectPascalParser"/>
+      <Title Value="TestObjectPascalParserCLI"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -20,11 +20,11 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../bin/TestObjectPascalParser"/>
+            <Filename Value="../bin/TestObjectPascalParserCLI"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -55,11 +55,11 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../bin/TestObjectPascalParser"/>
+            <Filename Value="../bin/TestObjectPascalParserCLI"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -90,76 +90,41 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="4">
       <Unit0>
-        <Filename Value="TestObjectPascalParser.lpr"/>
+        <Filename Value="TestObjectPascalParserCLI.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="states/testobjectpascalparserstatesstack.pas"/>
+        <Filename Value="text/testobjectpascalparsertextsourcefile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="TestObjectPascalParserStatesStack"/>
+        <UnitName Value="TestObjectPascalParserTextSourceFile"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../src/states/opp.states.pas"/>
+        <Filename Value="../src/text/opp.text.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="OPP.States"/>
+        <UnitName Value="OPP.Text"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../src/states/opp.states.stack.pas"/>
+        <Filename Value="../src/text/opp.text.sourcefile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="OPP.States.Stack"/>
+        <UnitName Value="OPP.Text.SourceFile"/>
       </Unit3>
-      <Unit4>
-        <Filename Value="states/testobjectpascalparserstatesstacktokens.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="TestObjectPascalParserStatesStackTokens"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="../src/states/opp.states.stacktokens.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="OPP.States.StackTokens"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="TestObjectPascalParserTokenizingTokenizer"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="../src/tokenizing/opp.tokenizing.tokens.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="OPP.Tokenizing.Tokens"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="../src/tokenizing/opp.tokenizing.tokenizer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="OPP.Tokenizing.Tokenizer"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizereof.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="TestObjectPascalParserTokenizingTokenizerEOF"/>
-      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../bin/TestObjectPascalParser"/>
+      <Filename Value="../bin/TestObjectPascalParserCLI"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="states;../src/states;tokenizing;../src/tokenizing"/>
+      <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <Linking>
-      <Debugging>
-        <DebugInfoType Value="dsDwarf3"/>
-      </Debugging>
-    </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="4">
+    <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -169,9 +134,6 @@
       <Item3>
         <Name Value="EFOpenError"/>
       </Item3>
-      <Item4>
-        <Name Value="EStatesStackEmpty"/>
-      </Item4>
     </Exceptions>
   </Debugging>
 </CONFIG>

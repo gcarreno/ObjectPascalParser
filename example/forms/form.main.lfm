@@ -1,0 +1,129 @@
+object frmMain: TfrmMain
+  Left = 397
+  Height = 500
+  Top = 32
+  Width = 800
+  Caption = 'frmMain'
+  ClientHeight = 500
+  ClientWidth = 800
+  Constraints.MinHeight = 500
+  Constraints.MinWidth = 800
+  Menu = mmMain
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  object psMain: TPairSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 500
+    Top = 0
+    Width = 800
+    Align = alClient
+    Position = 200
+    SplitterType = pstVertical
+    object pssTop: TPairSplitterSide
+      Cursor = crArrow
+      Left = 0
+      Height = 200
+      Top = 0
+      Width = 800
+      ClientWidth = 800
+      ClientHeight = 200
+      Constraints.MinHeight = 150
+      object memTopSourceCode: TMemo
+        Left = 4
+        Height = 155
+        Top = 4
+        Width = 792
+        Align = alClient
+        BorderSpacing.Around = 4
+        Lines.Strings = (
+          'program HelloWorld;'
+          ''
+          'begin'
+          '  WriteLn(''Hello World!! 👋'');'
+          'end;'
+        )
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+      end
+      object panTopButtons: TPanel
+        Left = 0
+        Height = 37
+        Top = 163
+        Width = 800
+        Align = alBottom
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 37
+        ClientWidth = 800
+        TabOrder = 1
+        object btnParserParse: TButton
+          Left = 4
+          Height = 33
+          Top = 4
+          Width = 80
+          Action = actParserParse
+          Align = alLeft
+          AutoSize = True
+          BorderSpacing.Left = 4
+          BorderSpacing.Top = 4
+          Constraints.MinWidth = 80
+          TabOrder = 0
+        end
+      end
+    end
+    object pssBottom: TPairSplitterSide
+      Cursor = crArrow
+      Left = 0
+      Height = 295
+      Top = 205
+      Width = 800
+      ClientWidth = 800
+      ClientHeight = 295
+      Constraints.MinHeight = 200
+      object tvBottomCodeTree: TTreeView
+        Left = 4
+        Height = 287
+        Top = 4
+        Width = 792
+        Align = alClient
+        BorderSpacing.Around = 4
+        ReadOnly = True
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+        Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+      end
+    end
+  end
+  object mmMain: TMainMenu
+    Left = 499
+    Top = 267
+    object mnuFile: TMenuItem
+      Caption = '&File'
+      object mnuFileExit: TMenuItem
+        Action = actFileExit
+      end
+    end
+    object mnuParser: TMenuItem
+      Caption = '&Parser'
+      object MenuItem2: TMenuItem
+        Action = actParserParse
+      end
+    end
+  end
+  object alMain: TActionList
+    Left = 499
+    Top = 330
+    object actFileExit: TFileExit
+      Category = 'File'
+      Caption = 'E&xit'
+      Hint = 'Exit'
+    end
+    object actParserParse: TAction
+      Category = 'Parser'
+      Caption = 'P&arse'
+      OnExecute = actParserParseExecute
+    end
+  end
+end

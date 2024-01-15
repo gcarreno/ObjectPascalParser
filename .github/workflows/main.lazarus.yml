@@ -15,8 +15,46 @@ on:
 
 jobs:
 
+  build:
+    name: 01 - Build Application
+    uses: gcarreno/re-usable-workflows/.github/workflows/build.lazarus.yml@main
+    with:
+      config: '{
+          "app-name": "ObjectPascalParserExample",
+          "lpi-path": "example",
+          "bin-path": "bin",
+          "build-mode": "Release",
+          "lazarus-packages": "",
+          "matrix": {
+            "os": [
+              "ubuntu-latest",
+              "windows-latest",
+              "macos-latest"
+            ],
+            "include":[
+              {
+                "os": "ubuntu-latest",
+                "triplet": "x86_64-linux"
+              },
+              {
+                "os": "windows-latest",
+                "triplet": "x86_64-win64"
+              },
+              {
+                "os": "macos-latest",
+                "triplet": "x86_64-darwin"
+              }
+            ],
+            "lazarus-versions": [
+              "stable",
+              "2.2.6"
+            ]
+          }
+        }'
+      fail-fast: false
+
   test:
-    name: 01 - Test Application
+    name: 02 - Test Application
     uses: gcarreno/re-usable-workflows/.github/workflows/test.lazarus.yml@main
     with:
       config: '{
@@ -38,5 +76,22 @@ jobs:
               "2.2.6"
             ]
           }
+        }'
+      fail-fast: false
+
+  release:
+    if: contains(github.ref_type, 'tag')
+
+    name: 03 - Create GitHub Release
+    uses: gcarreno/re-usable-workflows/.github/workflows/release.lazarus.yml@main
+    needs: [ build, test ]
+    with:
+      config: '{
+          "app-name": "ObjectPascalParserExample",
+          "tag": "${{ github.ref_name }}",
+          "cliff-cfg": "cliff.toml",
+          "win": "${{ needs.build.outputs.win-artefact-path }}",
+          "lin": "${{ needs.build.outputs.lin-artefact-path }}",
+          "osx": "${{ needs.build.outputs.osx-artefact-path }}"
         }'
       fail-fast: false

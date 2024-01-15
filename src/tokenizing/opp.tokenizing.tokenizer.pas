@@ -43,7 +43,7 @@ type
     procedure FillTokenWithEOL(const ADoIncrement: Boolean = True);
     procedure FillTokenWithEOF;
 
-    function ProcessCharacter(const ACharacter: TTextCharacter): TLoopFlow;
+    function ProcessCharacter: TLoopFlow;
   protected
   public
     constructor Create(const ASourceFile: TTextSourceFile);
@@ -105,8 +105,7 @@ begin
   FCurrentToken.Element:= UnicodeString(EmptyStr);
 end;
 
-function TTokenizingTokenizer.ProcessCharacter(
-  const ACharacter: TTextCharacter): TLoopFlow;
+function TTokenizingTokenizer.ProcessCharacter: TLoopFlow;
 begin
   Result:= lfNone;
   case FCurrentChar.Value of
@@ -204,7 +203,7 @@ begin
         raise ETokenizingTokenizerUnknownCharType.Create(rsETokenizingTokenizerUnknownCharType);
       end;
       tctAnsi:begin
-        case ProcessCharacter(FCurrentChar) of
+        case ProcessCharacter of
           lfNone:begin
             // Do Nothing
           end;
@@ -217,7 +216,7 @@ begin
         end;
       end;
       tctCodePoint:begin
-        case ProcessCharacter(FCurrentChar) of
+        case ProcessCharacter of
           lfNone:begin
             { #todo 999 -ogcarreno : This needs to be re-evaluated with state }
             FCurrentToken.Element:= FCurrentToken.Element + FCurrentChar.Value;

@@ -1,6 +1,11 @@
 unit OPP.Text.SourceFile;
 
-{$mode ObjFPC}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFNDEF WINDOWS}
+    {$codepage UTF8}
+  {$ENDIF}
+{$ENDIF}
 
 interface
 
@@ -197,7 +202,6 @@ begin
   Result.EOF:= False;
 
 
-  // Get next char(s) and fill record
   SetLength(buffer, 1);
   bytesRead:= FSourceFileStream.Read(buffer[0], Length(buffer));
   if bytesRead = 0 then

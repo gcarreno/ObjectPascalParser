@@ -1,6 +1,11 @@
 unit OPP.States.Stack;
 
-{$mode ObjFPC}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFNDEF WINDOWS}
+    {$codepage UTF8}
+  {$ENDIF}
+{$ENDIF}
 
 interface
 

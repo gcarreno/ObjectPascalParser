@@ -1,6 +1,11 @@
 unit TestObjectPascalParser;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFNDEF WINDOWS}
+    {$codepage UTF8}
+  {$ENDIF}
+{$ENDIF}
 
 interface
 

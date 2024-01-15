@@ -1,6 +1,13 @@
 program TestObjectPascalParserCLI;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFNDEF WINDOWS}
+    {$codepage UTF8}
+  {$ENDIF}
+{$ELSE}
+  {$apptype console}
+{$ENDIF}
 
 uses
   Classes
@@ -10,7 +17,7 @@ uses
 , TestObjectPascalParserStatesStackTokens
 , TestObjectPascalParserTokenizingTokenizer
 , TestObjectPascalParserTokenizingTokenizerEOF
-, TestObjectPascalParser, OPP.Parser
+, TestObjectPascalParser
 ;
 
 type
@@ -25,6 +32,7 @@ var
   Application: TTestObjectPascalParserRunner;
 
 begin
+
   DefaultRunAllTests:=True;
   DefaultFormat:=fPlain;
   Application := TTestObjectPascalParserRunner.Create(nil);

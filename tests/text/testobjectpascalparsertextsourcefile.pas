@@ -1,6 +1,11 @@
 unit TestObjectPascalParserTextSourceFile;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFNDEF WINDOWS}
+    {$codepage UTF8}
+  {$ENDIF}
+{$ENDIF}
 
 interface
 
@@ -50,10 +55,10 @@ uses
 const
   cSourceFileContentAnsi       = 'program';
   cSourceFileContentUTF8       = 'program Test🌟';
-  cSourceFileContentUTF16BE    = #0'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm';
-  cSourceFileContentUTF16LE    = 'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm'#0;
-  cSourceFileContentUTF32BE    = #0#0#0'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm';
-  cSourceFileContentUTF32LE    = 'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm'#0#0#0;
+//  cSourceFileContentUTF16BE    = #0'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm';
+//  cSourceFileContentUTF16LE    = 'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm'#0;
+//  cSourceFileContentUTF32BE    = #0#0#0'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm';
+//  cSourceFileContentUTF32LE    = 'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm'#0#0#0;
 
   cSourceFileContentBOMUTF8    = #$EF#$BB#$BF'program Test🌟';
   cSourceFileContentBOMUTF16BE = #$FE#$FF;
@@ -233,12 +238,12 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is CodePoint', TextCharTypeToString(tctCodePoint), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is 🌟', UnicodeString('🌟'), nextChar.Value);
+    AssertEquals('Text Source File Next Char is 🌟', '🌟', nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -350,7 +355,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is UTF8', TextCharTypeToString(tctCodePoint), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is 🌟', UnicodeString('🌟'), nextChar.Value);
+    AssertEquals('Text Source File Next Char is 🌟', '🌟', nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;

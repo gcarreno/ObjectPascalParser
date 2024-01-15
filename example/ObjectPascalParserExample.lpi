@@ -25,8 +25,8 @@
             <Filename Value="../bin/ObjectPascalParserExample"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../src/parser;../src/states;../src/parser;../src/text;../src/tokenizing;forms"/>
+            <IncludeFiles Value="../src;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../src/parser;../src/states;../src/text;../src/tokenizing;forms"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -65,8 +65,8 @@
             <Filename Value="../bin/ObjectPascalParserExample"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../src/parser;../src/states;../src/parser;../src/text;../src/tokenizing;forms"/>
+            <IncludeFiles Value="../src;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../src/parser;../src/states;../src/text;../src/tokenizing;forms"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -78,7 +78,6 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
-              <RunWithoutDebug Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
             <Options>
@@ -111,6 +110,7 @@
         <Filename Value="forms/form.main.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMain"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Form.Main"/>
       </Unit1>
@@ -122,8 +122,8 @@
       <Filename Value="../bin/ObjectPascalParserExample"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../src/parser;../src/states;../src/parser;../src/text;../src/tokenizing;forms"/>
+      <IncludeFiles Value="../src;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../src/parser;../src/states;../src/text;../src/tokenizing;forms"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

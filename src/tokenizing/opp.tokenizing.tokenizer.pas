@@ -7,6 +7,8 @@ interface
 uses
   Classes
 , SysUtils
+, OPP.Text
+, OPP.Text.SourceFile
 , OPP.States
 , OPP.States.StackTokens
 , OPP.Tokenizing.Tokens
@@ -23,8 +25,8 @@ type
 { TTokenizingTokenizer }
   TTokenizingTokenizer = class(Tobject)
   private
-    FStream: TStringStream;
-    FCurrentChar: Char;
+    FSSourceFile: TTextSourceFile;
+    FCurrentChar: TTextCharacter;
     FLine: Int64;
     FRow: Int64;
     FStackTokens: TStatesStackTokens;
@@ -34,7 +36,7 @@ type
     procedure FillEOF(var AToken: TToken);
   protected
   public
-    constructor Create(const AStream: TStream);
+    constructor Create(const ASourceFile: TTextSourceFile);
     destructor Destroy; override;
 
     function GetNextToken: TToken;
@@ -45,12 +47,12 @@ implementation
 
 { TTokenizingTokenizer }
 
-constructor TTokenizingTokenizer.Create(const AStream: TStream);
+constructor TTokenizingTokenizer.Create(const ASourceFile: TTextSourceFile);
 begin
-  FStream:= TStringStream.Create;
-  FStream.CopyFrom(AStream, AStream.Size);
-  FStream.Position:= 0;
-  FCurrentChar:= #0;
+  FSSourceFile:= ASourceFile;
+  FCurrentChar.&Type:= tctUnknown;
+  FCurrentChar.Value:= '';
+  FCurrentChar.EOF:= False;
   FLine:= 0;
   FRow:= 0;
   FStackTokens:= TStatesStackTokens.Create;
@@ -58,7 +60,6 @@ end;
 
 destructor TTokenizingTokenizer.Destroy;
 begin
-  if Assigned(FStream) then FStream.Free;
   if Assigned(FStackTokens) then FStackTokens.Free;
   inherited Destroy;
 end;
@@ -96,13 +97,15 @@ begin
 end;
 
 function TTokenizingTokenizer.GetNextToken: TToken;
-var
-  bytesRead: Integer = 0;
 begin
-  FillReset(Result);
+  Result.Error:= teNone;
+  Result.&Type:= ttUndefined;
+  Result.Line:= FLine;
+  Result.Row:= FRow;
+  Result.Element:= EmptyStr;
 
   // Exit early if nothing to do
-  if FStream.Size = 0 then
+  if FSSourceFile.Size = 0 then
   begin
     Result.&Type:= ttEOF;
     exit;
@@ -111,11 +114,10 @@ begin
   FStackTokens.Push(tsUndefined);
   repeat
     // Read one char at a time
-    { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
-    bytesRead:= FStream.Read(FCurrentChar, 1);
+    FCurrentChar:= FSSourceFile.GetNextChar;
 
     // This is EOF
-    if bytesRead = 0 then
+    if FCurrentChar.EOF then
     begin
       case FStackTokens.Peek of
         tsUndefined:begin
@@ -146,7 +148,7 @@ begin
     if FLine = 0 then FLine:= 1;
 
     // Decide per caracter
-    case FCurrentChar of
+    case FCurrentChar.Value of
       // White Spaces
       #9, ' ':begin
         if not (FStackTokens.Peek = tsWhiteSpace) then FStackTokens.Push(tsWhiteSpace);
@@ -155,25 +157,25 @@ begin
       #10, #13:begin
         case FStackTokens.Peek of
           tsUndefined:begin
-            if FCurrentChar = #10 then
+            if FCurrentChar.Value = #10 then
             begin
               FillEOL(Result);
-              Result.Element:= FCurrentChar;
+              Result.Element:= FCurrentChar.Value;
               break;
             end;
-            if FCurrentChar = #13 then
+            if FCurrentChar.Value = #13 then
             begin
               FillEOL(Result, False);
-              Result.Element:= FCurrentChar;
+              Result.Element:= FCurrentChar.Value;
               FStackTokens.Push(tsMaybeCRLF);
               continue;
             end;
           end;
           tsMaybeCRLF:begin
-            if FCurrentChar = #10 then
+            if FCurrentChar.Value = #10 then
             begin
               FillEOL(Result);
-              Result.Element:= Result.Element + FCurrentChar;
+              Result.Element:= Result.Element + FCurrentChar.Value;
               FStackTokens.Pop;
               break;
             end;
@@ -187,8 +189,6 @@ begin
       otherwise
         FStackTokens.Pop;
     end;
-
-writeln('State: ', TokenStateToString(FStackTokens.Peek), ' Char: ', FCurrentChar);
 
   until  FStackTokens.Peek = tsUndefined;
   if FStackTokens.Count > 1 then

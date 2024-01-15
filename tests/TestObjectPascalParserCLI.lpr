@@ -6,10 +6,10 @@ uses
   Classes
 , consoletestrunner
 , TestObjectPascalParserTextSourceFile
-//, TestObjectPascalParserStatesStack
-//, TestObjectPascalParserStatesStackTokens
-//, TestObjectPascalParserTokenizingTokenizer
-//, TestObjectPascalParserTokenizingTokenizerEOF
+, TestObjectPascalParserStatesStack
+, TestObjectPascalParserStatesStackTokens
+, TestObjectPascalParserTokenizingTokenizer
+, TestObjectPascalParserTokenizingTokenizerEOF
 ;
 
 type

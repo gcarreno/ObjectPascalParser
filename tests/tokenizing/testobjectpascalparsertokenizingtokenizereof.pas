@@ -10,6 +10,7 @@ uses
 , fpcunit
 //, testutils
 , testregistry
+, OPP.Text.SourceFile
 //, OPP.States
 , OPP.Tokenizing.Tokens
 , OPP.Tokenizing.Tokenizer
@@ -22,7 +23,7 @@ type
   TTestObjectPascalParserTokenizingTokenizerEOF= class(TTestCase)
   private
     FTokenisingTokenizer: TTokenizingTokenizer;
-    FStringStream: TStringStream;
+    FSourceFile: TTextSourceFile;
     FToken: TToken;
   published
     procedure TestTokenizingTokenizerEOFEmpty;
@@ -37,19 +38,23 @@ type
 
 implementation
 
+uses
+  OPP.Tests
+;
+
 const
   cSpace = ' ';
   cTab = #9;
   cEOLCR = #13;
   cEOLLF = #10;
   cEOLCRLF = cEOLCR + cEOLLF;
-  cAlpha = 'a';
-  cEndInstruction = ';';
+//  cAlpha = 'a';
+//  cEndInstruction = ';';
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFEmpty;
 begin
-  FStringStream:= TStringStream.Create(EmptyStr);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(EmptyStr));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -59,14 +64,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFSpace;
 begin
-  FStringStream:= TStringStream.Create(cSpace);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSpace));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -76,14 +82,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFTab;
 begin
-  FStringStream:= TStringStream.Create(cTab);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cTab));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -93,14 +100,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFSpaceTab;
 begin
-  FStringStream:= TStringStream.Create(cSpace + cTab);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSpace + cTab));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -110,14 +118,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFTabSpace;
 begin
-  FStringStream:= TStringStream.Create(cTab + cSpace);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cTab + cSpace));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -127,14 +136,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFLineFeed;
 begin
-  FStringStream:= TStringStream.Create(cEOLLF);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cEOLLF));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -150,14 +160,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFCarriageReturn;
 begin
-  FStringStream:= TStringStream.Create(cEOLCR);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cEOLCR));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -173,14 +184,15 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 
 procedure TTestObjectPascalParserTokenizingTokenizerEOF.TestTokenizingTokenizerEOFCarriageReturnLineFeed;
 begin
-  FStringStream:= TStringStream.Create(cEOLCR+cEOLLF);
-  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FStringStream);
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cEOLCR + cEOLLF));
+  FTokenisingTokenizer:= TTokenizingTokenizer.Create(FSourceFile);
   try
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
@@ -196,7 +208,8 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
   finally
     FTokenisingTokenizer.Free;
-    FStringStream.Free;
+    DeleteFile(FSourceFile.Filename);
+    FSourceFile.Free;
   end;
 end;
 

@@ -24,7 +24,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -59,7 +59,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -90,69 +90,73 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="14">
       <Unit0>
         <Filename Value="TestObjectPascalParserCLI.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
+        <Filename Value="tests/opp.tests.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
         <Filename Value="text/testobjectpascalparsertextsourcefile.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserTextSourceFile"/>
-      </Unit1>
-      <Unit2>
+      </Unit2>
+      <Unit3>
         <Filename Value="../src/text/opp.text.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.Text"/>
-      </Unit2>
-      <Unit3>
+      </Unit3>
+      <Unit4>
         <Filename Value="../src/text/opp.text.sourcefile.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.Text.SourceFile"/>
-      </Unit3>
-      <Unit4>
+      </Unit4>
+      <Unit5>
         <Filename Value="states/testobjectpascalparserstatesstack.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserStatesStack"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="../src/states/opp.states.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="../src/states/opp.states.stack.pas"/>
+        <Filename Value="../src/states/opp.states.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
+        <Filename Value="../src/states/opp.states.stack.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
         <Filename Value="states/testobjectpascalparserstatesstacktokens.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserStatesStackTokens"/>
-      </Unit7>
-      <Unit8>
+      </Unit8>
+      <Unit9>
         <Filename Value="../src/states/opp.states.stacktokens.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.States.StackTokens"/>
-      </Unit8>
-      <Unit9>
+      </Unit9>
+      <Unit10>
         <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserTokenizingTokenizer"/>
-      </Unit9>
-      <Unit10>
+      </Unit10>
+      <Unit11>
         <Filename Value="../src/tokenizing/opp.tokenizing.tokens.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.Tokenizing.Tokens"/>
-      </Unit10>
-      <Unit11>
+      </Unit11>
+      <Unit12>
         <Filename Value="../src/tokenizing/opp.tokenizing.tokenizer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="OPP.Tokenizing.Tokenizer"/>
-      </Unit11>
-      <Unit12>
+      </Unit12>
+      <Unit13>
         <Filename Value="tokenizing/testobjectpascalparsertokenizingtokenizereof.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserTokenizingTokenizerEOF"/>
-      </Unit12>
+      </Unit13>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -162,7 +166,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+      <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>

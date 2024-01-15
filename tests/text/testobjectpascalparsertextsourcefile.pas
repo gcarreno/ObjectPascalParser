@@ -31,6 +31,10 @@ type
     procedure TestObjectPascalParserTextSourceGetNextCharAnsi;
     procedure TestObjectPascalParserTextSourceGetNextCharUTF8;
     procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF8;
+    procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF16BE;
+    procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF16LE;
+    procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF32BE;
+    procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF32LE;
   end;
 
 implementation
@@ -40,9 +44,13 @@ uses
 ;
 
 const
-  cSourceFileContentAnsi = 'program';
-  cSourceFileContentUTF8 = 'program Test🌟';
-  cSourceFileContentBOMUTF8 = #$EF#$BB#$BF'program Test🌟';
+  cSourceFileContentAnsi       = 'program';
+  cSourceFileContentUTF8       = 'program Test🌟';
+  cSourceFileContentBOMUTF8    = #$EF#$BB#$BF'program Test🌟';
+  cSourceFileContentBOMUTF16BE = #$FE#$FF;
+  cSourceFileContentBOMUTF16LE = #$FF#$FE;
+  cSourceFileContentBOMUTF32BE = #$00#$00#$FE#$FF;
+  cSourceFileContentBOMUTF32LE = #$00#$00#$FF#$FE;
 
 procedure TTestObjectPascalParserTextSourceFile.TestSourceFileCreateException;
 begin
@@ -306,6 +314,50 @@ begin
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
     AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
+  finally
+    FSourceFile.Free;
+  end;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharBOMUTF16BE;
+begin
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentBOMUTF16BE));
+  try
+    AssertEquals('Text Source File is UTF16BE', TextFileTypeToString(tftUTF16BE), TextFileTypeToString(FSourceFile.FileType));
+    AssertTrue('Text Source File Has BOM', FSourceFile.HasBOM);
+  finally
+    FSourceFile.Free;
+  end;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharBOMUTF16LE;
+begin
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentBOMUTF16LE));
+  try
+    AssertEquals('Text Source File is UTF16LE', TextFileTypeToString(tftUTF16LE), TextFileTypeToString(FSourceFile.FileType));
+    AssertTrue('Text Source File Has BOM', FSourceFile.HasBOM);
+  finally
+    FSourceFile.Free;
+  end;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharBOMUTF32BE;
+begin
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentBOMUTF32BE));
+  try
+    AssertEquals('Text Source File is UTF32BE', TextFileTypeToString(tftUTF32BE), TextFileTypeToString(FSourceFile.FileType));
+    AssertTrue('Text Source File Has BOM', FSourceFile.HasBOM);
+  finally
+    FSourceFile.Free;
+  end;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharBOMUTF32LE;
+begin
+  FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentBOMUTF32LE));
+  try
+    AssertEquals('Text Source File is UTF32LE', TextFileTypeToString(tftUTF32LE), TextFileTypeToString(FSourceFile.FileType));
+    AssertTrue('Text Source File Has BOM', FSourceFile.HasBOM);
   finally
     FSourceFile.Free;
   end;

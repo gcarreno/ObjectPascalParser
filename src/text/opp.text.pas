@@ -10,11 +10,14 @@ uses
 ;
 
 const
-  cBOMUTF8 :    String = #$EF#$BB#$BF;     // EF BB BF
-  cBOMUTF16BE : String = #$FE#$FF;         //FE FF
-  cBOMUTF16LE : String = #$FF#$FE;         //FF FE
-  cBOMUTF32BE : String = #$00#$00#$FE#$FF; //00 00 FE FF
-  cBOMUTF32LE : String = #$00#$00#$FF#$FE; //00 00 FF FE
+  cBOMUTF8    : TBytes = ($EF, $BB, $BF);
+  cBOMUTF16BE : TBytes = ($FE, $FF);
+  cBOMUTF16LE : TBytes = ($FF, $FE);
+  cBOMUTF32BE : TBytes = ($00, $00, $FE, $FF);
+  cBOMUTF32LE : TBytes = ($00, $00, $FF, $FE);
+  cBOMUTF8Len  = 3;
+  cBOMUTF16Len = 2;
+  cBOMUTF32Len = 4;
 
 type
 { TTextFileType }

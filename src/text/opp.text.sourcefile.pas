@@ -127,6 +127,11 @@ begin
     end;
   end;
 
+  if FFileType = tftUnknown then
+  begin
+    // Since file has no BOM, we need to dig a bit more into it's contents
+  end;
+
   case FFileType of
       tftUnknown: begin
         { #todo 999 -ogcarreno : We are assuming this for the time being }
@@ -134,13 +139,34 @@ begin
         FSourceFileStream.Position:= 0;
       end;
       tftUTF8: begin
-        FSourceFileStream.Position:= cBOMUTF8Len;
+        if FHasBOM then
+        begin
+          FSourceFileStream.Position:= cBOMUTF8Len;
+        end
+        else
+        begin
+          FSourceFileStream.Position:= 0;
+        end;
       end;
       tftUTF16BE, tftUTF16LE: begin
-        FSourceFileStream.Position:= cBOMUTF16Len;
+        if FHasBOM then
+        begin
+          FSourceFileStream.Position:= cBOMUTF16Len;
+        end
+        else
+        begin
+          FSourceFileStream.Position:= 0;
+        end;
       end;
       tftUTF32BE, tftUTF32LE: begin
-        FSourceFileStream.Position:= cBOMUTF32Len;
+        if FHasBOM then
+        begin
+          FSourceFileStream.Position:= cBOMUTF32Len;
+        end
+        else
+        begin
+          FSourceFileStream.Position:= 0;
+        end;
       end;
   end;
 

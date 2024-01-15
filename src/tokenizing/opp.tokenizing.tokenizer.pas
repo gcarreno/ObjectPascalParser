@@ -147,48 +147,65 @@ begin
     // We read something witout error, and we initialize the Line number
     if FLine = 0 then FLine:= 1;
 
-    // Decide per caracter
-    case FCurrentChar.Value of
-      // White Spaces
-      #9, ' ':begin
-        if not (FStackTokens.Peek = tsWhiteSpace) then FStackTokens.Push(tsWhiteSpace);
+    case FCurrentChar.&Type of
+      tctUnknown:begin
+        // Panic?!
       end;
+      tctAnsi:begin
+        // Decide per caracter
+        case FCurrentChar.Value of
+          // White Spaces
+          #9, ' ':begin
+            if not (FStackTokens.Peek = tsWhiteSpace) then FStackTokens.Push(tsWhiteSpace);
+          end;
 
-      #10, #13:begin
-        case FStackTokens.Peek of
-          tsUndefined:begin
-            if FCurrentChar.Value = #10 then
-            begin
-              FillEOL(Result);
-              Result.Element:= FCurrentChar.Value;
-              break;
-            end;
-            if FCurrentChar.Value = #13 then
-            begin
-              FillEOL(Result, False);
-              Result.Element:= FCurrentChar.Value;
-              FStackTokens.Push(tsMaybeCRLF);
-              continue;
+          #10, #13:begin
+            case FStackTokens.Peek of
+              tsUndefined:begin
+                if FCurrentChar.Value = #10 then
+                begin
+                  FillEOL(Result);
+                  Result.Element:= FCurrentChar.Value;
+                  break;
+                end;
+                if FCurrentChar.Value = #13 then
+                begin
+                  FillEOL(Result, False);
+                  Result.Element:= FCurrentChar.Value;
+                  FStackTokens.Push(tsMaybeCRLF);
+                  continue;
+                end;
+              end;
+              tsMaybeCRLF:begin
+                if FCurrentChar.Value = #10 then
+                begin
+                  FillEOL(Result);
+                  Result.Element:= Result.Element + FCurrentChar.Value;
+                  FStackTokens.Pop;
+                  break;
+                end;
+              end;
+              otherwise
+                // Do Nothing ?!?!?!
             end;
           end;
-          tsMaybeCRLF:begin
-            if FCurrentChar.Value = #10 then
-            begin
-              FillEOL(Result);
-              Result.Element:= Result.Element + FCurrentChar.Value;
-              FStackTokens.Pop;
-              break;
-            end;
-          end;
+
+          // If everything else does not match
           otherwise
-            // Do Nothing ?!?!?!
+            FStackTokens.Pop;
         end;
       end;
-
-      // If everything else does not match
-      otherwise
-        FStackTokens.Pop;
+      tctUTF8:begin
+        { #todo 999 -ogcarreno : Implement UTF8 character }
+      end;
+      tctUTF16:begin
+        { #todo 999 -ogcarreno : Implement UTF16 character }
+      end;
+      tctUTF32:begin
+        { #todo 999 -ogcarreno : Implement UTF32 character }
+      end;
     end;
+
 
   until  FStackTokens.Peek = tsUndefined;
   if FStackTokens.Count > 1 then

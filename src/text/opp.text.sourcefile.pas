@@ -55,7 +55,6 @@ implementation
 constructor TTextSourceFile.Create(const AFileName: String);
 var
   buffer: TBytes;
-  BOMTest: String;
 begin
   FSourceFileStream:= nil;
   if not FileExists(AFileName) then raise ETextSourceFileDoesNotExist.Create(
@@ -65,20 +64,16 @@ begin
     )
   );
 
-  { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
   FFilename:= AFileName;
   FSourceFileStream:= TFileStream.Create(AFileName, fmOpenRead);
-  { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
-  BOMTest:= EmptyStr;
 
   FFileType:= tftUnknown;
   FHasBOM:= False;
 
   // For UTF8
-  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= 3) then
+  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= cBOMUTF8Len) then
   begin
     FSourceFileStream.Position:= 0; // Just in case
-    BOMTest:= EmptyStr;
 
     SetLength(buffer, cBOMUTF8Len);
     FSourceFileStream.Read(buffer[0], cBOMUTF8Len);
@@ -91,10 +86,9 @@ begin
   end;
 
   // For UTF16
-  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= 2) then
+  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= cBOMUTF16Len) then
   begin
     FSourceFileStream.Position:= 0; // Just in case
-    BOMTest:= EmptyStr;
 
     SetLength(buffer, cBOMUTF16Len);
     FSourceFileStream.Read(buffer[0], cBOMUTF16Len);
@@ -113,10 +107,9 @@ begin
   end;
 
   // For UTF32
-  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= 4) then
+  if (FFileType = tftUnknown) and (FSourceFileStream.Size >= cBOMUTF32Len) then
   begin
     FSourceFileStream.Position:= 0;
-    BOMTest:= EmptyStr;
 
     SetLength(buffer, cBOMUTF32Len);
     FSourceFileStream.Read(buffer[0], cBOMUTF32Len);
@@ -141,13 +134,13 @@ begin
         FSourceFileStream.Position:= 0;
       end;
       tftUTF8: begin
-        FSourceFileStream.Position:= 3;
+        FSourceFileStream.Position:= cBOMUTF8Len;
       end;
       tftUTF16BE, tftUTF16LE: begin
-        FSourceFileStream.Position:= 2;
+        FSourceFileStream.Position:= cBOMUTF16Len;
       end;
       tftUTF32BE, tftUTF32LE: begin
-        FSourceFileStream.Position:= 4;
+        FSourceFileStream.Position:= cBOMUTF32Len;
       end;
   end;
 

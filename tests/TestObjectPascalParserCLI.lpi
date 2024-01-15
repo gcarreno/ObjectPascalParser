@@ -123,10 +123,12 @@
       <Unit6>
         <Filename Value="../src/states/opp.states.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.States"/>
       </Unit6>
       <Unit7>
         <Filename Value="../src/states/opp.states.stack.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.States.Stack"/>
       </Unit7>
       <Unit8>
         <Filename Value="states/testobjectpascalparserstatesstacktokens.pas"/>

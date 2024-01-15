@@ -177,46 +177,72 @@ begin
   end
   else
   begin
-    case buffer of
-      $00..$7F:begin
-        Result.&Type:= tctAnsi;
-        Result.Value := Char(buffer);
+    case FFileType of
+      tftUnknown:begin
+        // ?!?
       end;
-      $C2..$DF:begin
-        Result.&Type:= tctUTF8;
-        Result.Value := Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
+      tftAnsi:begin
+        // ?!?
       end;
-      $E0, $E1..$EF:begin
-        Result.&Type:= tctUTF8;
-        Result.Value := Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
+      tftUTF8:begin
+        case buffer of
+          $00..$7F:begin
+            Result.&Type:= tctAnsi;
+            Result.Value := Char(buffer);
+          end;
+          $C2..$DF:begin
+            Result.&Type:= tctUTF8;
+            Result.Value := Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+          end;
+          $E0, $E1..$EF:begin
+            Result.&Type:= tctUTF8;
+            Result.Value := Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+          end;
+          $F0, $F1..$F3, $F4:begin
+            Result.&Type:= tctUTF8;
+            Result.Value := Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
+            Result.Value := Result.Value + Char(buffer);
+          end;
+          otherwise
+            Result.&Type:= tctAnsi;
+            Result.Value := Char(buffer);
+        end;
       end;
-      $F0, $F1..$F3, $F4:begin
-        Result.&Type:= tctUTF8;
-        Result.Value := Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
-        bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-        if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-        Result.Value := Result.Value + Char(buffer);
+      tftUTF16BE:begin
+        Result.&Type:= tctUTF16BE;
+        // Need to read the next byte of the character
       end;
-      otherwise
-        { #todo 999 -ogcarreno : This is temporary since it does not account for UTF16 nor UTF32 }
-        Result.&Type:= tctAnsi;
-        Result.Value := Char(buffer);
+      tftUTF16LE:begin
+        Result.&Type:= tctUTF16LE;
+        // Need to read the next byte of the character
+      end;
+      tftUTF32BE:begin
+        Result.&Type:= tctUTF32BE;
+        // Need to read the next 3 bytes of the character
+      end;
+      tftUTF32LE:begin
+        Result.&Type:= tctUTF32LE;
+        // Need to read the next 3 bytes of the character
+      end;
     end;
+
   end;
 end;
 

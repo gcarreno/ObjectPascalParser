@@ -26,7 +26,7 @@ type
     procedure TestSourceFileCreateException;
   published
     procedure TestObjectPascalParserTextSourceFileCreate;
-    procedure TestObjectPascalParserTextSourceFileCreateError;
+    procedure TestObjectPascalParserTextSourceFileCreateException;
     procedure TestObjectPascalParserTextSourceFileFilename;
     procedure TestObjectPascalParserTextSourceGetNextCharAnsi;
     procedure TestObjectPascalParserTextSourceGetNextCharUTF8;
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceFileCreateError;
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceFileCreateException;
 begin
   FSourceFile:= nil;
   AssertException(

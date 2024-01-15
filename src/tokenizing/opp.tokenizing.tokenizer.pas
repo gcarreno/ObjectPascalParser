@@ -18,22 +18,32 @@ type
 { ETokenizingTokenizerStackNotEmpty }
   ETokenizingTokenizerStackNotEmpty = class(Exception);
 
+{ ETokenizingTokenizerUnknownCharType }
+  ETokenizingTokenizerUnknownCharType = class(Exception);
+
 resourcestring
   rsETokenizingTokenizerStackNotEmpty = 'Tokenizing Tokenizer Stack Not Empty';
+  rsETokenizingTokenizerUnknownCharType = 'Tokenizing Tokenizer Unknown Char type';
 
 type
 { TTokenizingTokenizer }
   TTokenizingTokenizer = class(Tobject)
+  type
+  { TLoopFlow }
+    TLoopFlow = (lfNone, lfBreak, lfContinue);
   private
     FSSourceFile: TTextSourceFile;
     FCurrentChar: TTextCharacter;
+    FCurrentToken: TToken;
     FLine: Int64;
     FRow: Int64;
     FStackTokens: TStatesStackTokens;
 
-    procedure FillReset(var AToken: TToken);
-    procedure FillEOL(var AToken: TToken; const ADoIncrement: Boolean = True);
-    procedure FillEOF(var AToken: TToken);
+    procedure FillTokenWithReset;
+    procedure FillTokenWithEOL(const ADoIncrement: Boolean = True);
+    procedure FillTokenWithEOF;
+
+    function ProcessCharacter(const ACharacter: TTextCharacter): TLoopFlow;
   protected
   public
     constructor Create(const ASourceFile: TTextSourceFile);
@@ -64,56 +74,98 @@ begin
   inherited Destroy;
 end;
 
-procedure TTokenizingTokenizer.FillReset(var AToken: TToken);
+procedure TTokenizingTokenizer.FillTokenWithReset;
 begin
-  AToken.Error:= teNone;
-  AToken.&Type:= ttUndefined;
-  AToken.Line:= FLine;
-  AToken.Row:= FRow;
-  AToken.Element:= EmptyStr;
+  FCurrentToken.Error:= teNone;
+  FCurrentToken.&Type:= ttUndefined;
+  FCurrentToken.Line:= FLine;
+  FCurrentToken.Row:= FRow;
+  FCurrentToken.Element:= EmptyStr;
 end;
 
-procedure TTokenizingTokenizer.FillEOL(var AToken: TToken;
-  const ADoIncrement: Boolean);
+procedure TTokenizingTokenizer.FillTokenWithEOL(const ADoIncrement: Boolean);
 begin
-  AToken.Error:= teNone;
-  AToken.&Type:= ttEOL;
+  FCurrentToken.Error:= teNone;
+  FCurrentToken.&Type:= ttEOL;
   if ADoIncrement then
   begin
     Inc(FLine);
     FRow:= 0;
   end;
-  AToken.Line:= FLine;
-  AToken.Row:= FRow;
+  FCurrentToken.Line:= FLine;
+  FCurrentToken.Row:= FRow;
 end;
 
-procedure TTokenizingTokenizer.FillEOF(var AToken: TToken);
+procedure TTokenizingTokenizer.FillTokenWithEOF;
 begin
-  AToken.Error:= teNone;
-  AToken.&Type:= ttEOF;
-  AToken.Line:= FLine;
-  AToken.Row:= FRow;
-  AToken.Element:= EmptyStr;
+  FCurrentToken.Error:= teNone;
+  FCurrentToken.&Type:= ttEOF;
+  FCurrentToken.Line:= FLine;
+  FCurrentToken.Row:= FRow;
+  FCurrentToken.Element:= EmptyStr;
+end;
+
+function TTokenizingTokenizer.ProcessCharacter(
+  const ACharacter: TTextCharacter): TLoopFlow;
+begin
+  Result:= lfNone;
+  case FCurrentChar.Value of
+    // White Spaces
+    #9, ' ':begin
+      if not (FStackTokens.Peek = tsWhiteSpace) then FStackTokens.Push(tsWhiteSpace);
+    end;
+
+    #10, #13:begin
+      case FStackTokens.Peek of
+        tsUndefined:begin
+          if FCurrentChar.Value = #10 then
+          begin
+            FillTokenWithEOL;
+            FCurrentToken.Element:= FCurrentChar.Value;
+            Result:= lfBreak;
+          end;
+          if FCurrentChar.Value = #13 then
+          begin
+            FillTokenWithEOL(False);
+            FCurrentToken.Element:= FCurrentChar.Value;
+            FStackTokens.Push(tsMaybeCRLF);
+            Result:= lfContinue;
+          end;
+        end;
+        tsMaybeCRLF:begin
+          if FCurrentChar.Value = #10 then
+          begin
+            FillTokenWithEOL;
+            FCurrentToken.Element:= FCurrentToken.Element + FCurrentChar.Value;
+            FStackTokens.Pop;
+            Result:= lfBreak;
+          end;
+        end;
+        otherwise
+          // Do Nothing ?!?!?!
+      end;
+    end;
+
+    // If everything else does not match
+    otherwise
+      FStackTokens.Pop;
+  end;
 end;
 
 function TTokenizingTokenizer.GetNextToken: TToken;
 begin
-  Result.Error:= teNone;
-  Result.&Type:= ttUndefined;
-  Result.Line:= FLine;
-  Result.Row:= FRow;
-  Result.Element:= EmptyStr;
+  FillTokenWithReset;
 
   // Exit early if nothing to do
   if FSSourceFile.Size = 0 then
   begin
-    Result.&Type:= ttEOF;
+    FillTokenWithEOF;
+    Result:= FCurrentToken;
     exit;
   end;
 
   FStackTokens.Push(tsUndefined);
   repeat
-    // Read one char at a time
     FCurrentChar:= FSSourceFile.GetNextChar;
 
     // This is EOF
@@ -121,17 +173,17 @@ begin
     begin
       case FStackTokens.Peek of
         tsUndefined:begin
-          FillEOF(Result);
+          FillTokenWithEOF;
           break;
         end;
         tsWhiteSpace:begin
           FStackTokens.Pop;
-          FillEOF(Result);
+          FillTokenWithEOF;
           break;
         end;
         tsMaybeCRLF:begin
           FStackTokens.Pop;
-          FillEOL(Result);
+          FillTokenWithEOL;
           break;
         end;
         otherwise
@@ -149,60 +201,100 @@ begin
 
     case FCurrentChar.&Type of
       tctUnknown:begin
-        // Panic?!
+        raise ETokenizingTokenizerUnknownCharType.Create(rsETokenizingTokenizerUnknownCharType);
       end;
       tctAnsi:begin
-        // Decide per caracter
-        case FCurrentChar.Value of
-          // White Spaces
-          #9, ' ':begin
-            if not (FStackTokens.Peek = tsWhiteSpace) then FStackTokens.Push(tsWhiteSpace);
+        case ProcessCharacter(FCurrentChar) of
+          lfNone:begin
+            // Do Nothing
           end;
-
-          #10, #13:begin
-            case FStackTokens.Peek of
-              tsUndefined:begin
-                if FCurrentChar.Value = #10 then
-                begin
-                  FillEOL(Result);
-                  Result.Element:= FCurrentChar.Value;
-                  break;
-                end;
-                if FCurrentChar.Value = #13 then
-                begin
-                  FillEOL(Result, False);
-                  Result.Element:= FCurrentChar.Value;
-                  FStackTokens.Push(tsMaybeCRLF);
-                  continue;
-                end;
-              end;
-              tsMaybeCRLF:begin
-                if FCurrentChar.Value = #10 then
-                begin
-                  FillEOL(Result);
-                  Result.Element:= Result.Element + FCurrentChar.Value;
-                  FStackTokens.Pop;
-                  break;
-                end;
-              end;
-              otherwise
-                // Do Nothing ?!?!?!
-            end;
+          lfBreak:begin
+            break;
           end;
-
-          // If everything else does not match
-          otherwise
-            FStackTokens.Pop;
+          lfContinue:begin
+            continue;
+          end;
         end;
       end;
       tctUTF8:begin
         { #todo 999 -ogcarreno : Implement UTF8 character }
+        if Utf8ToAnsi(FCurrentChar.Value) = FCurrentChar.Value then
+        begin
+          FCurrentChar.Value := Utf8ToAnsi(FCurrentChar.Value);
+          case ProcessCharacter(FCurrentChar) of
+            lfNone:begin
+              // Do Nothing
+            end;
+            lfBreak:begin
+              break;
+            end;
+            lfContinue:begin
+              continue;
+            end;
+          end;
+        end
+        else
+        begin
+          { #todo 999 -ogcarreno : Does this need to take into account the state? }
+          FCurrentToken.Element:= FCurrentToken.Element + FCurrentChar.Value;
+          continue;
+        end;
       end;
-      tctUTF16:begin
-        { #todo 999 -ogcarreno : Implement UTF16 character }
+      tctUTF16BE:begin
+        { #todo 999 -ogcarreno : Implement UTF16BE character }
+        case ProcessCharacter(FCurrentChar) of
+          lfNone:begin
+            // Do Nothing
+          end;
+          lfBreak:begin
+            break;
+          end;
+          lfContinue:begin
+            continue;
+          end;
+        end;
       end;
-      tctUTF32:begin
-        { #todo 999 -ogcarreno : Implement UTF32 character }
+      tctUTF16LE:begin
+        { #todo 999 -ogcarreno : Implement UTF16LE character }
+        case ProcessCharacter(FCurrentChar) of
+          lfNone:begin
+            // Do Nothing
+          end;
+          lfBreak:begin
+            break;
+          end;
+          lfContinue:begin
+            continue;
+          end;
+        end;
+      end;
+      tctUTF32BE:begin
+        { #todo 999 -ogcarreno : Implement UTF32BE character }
+        case ProcessCharacter(FCurrentChar) of
+          lfNone:begin
+            // Do Nothing
+          end;
+          lfBreak:begin
+            break;
+          end;
+          lfContinue:begin
+            continue;
+          end;
+        end;
+      end;
+      tctUTF32LE:begin
+        { #todo 999 -ogcarreno : Implement UTF32LE character }
+        case ProcessCharacter(FCurrentChar) of
+          lfNone:begin
+            // Do Nothing
+          end;
+          lfBreak:begin
+            break;
+          end;
+          lfContinue:begin
+            continue;
+          end;
+        end;
       end;
     end;
 
@@ -211,6 +303,7 @@ begin
   if FStackTokens.Count > 1 then
     raise ETokenizingTokenizerStackNotEmpty.Create(rsETokenizingTokenizerStackNotEmpty);
   FStackTokens.Pop;
+  Result:= FCurrentToken;
 end;
 
 end.

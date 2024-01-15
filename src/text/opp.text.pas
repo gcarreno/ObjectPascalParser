@@ -50,7 +50,7 @@ resourcestring
 
 type
 { TTextCharType }
-  TTextCharType = (tctUnknown, tctAnsi, tctUTF8, tctUTF16, tctUTF32);
+  TTextCharType = (tctUnknown, tctAnsi, tctUTF8, tctUTF16BE, tctUTF16LE, tctUTF32BE, tctUTF32LE);
 
 function TextCharTypeToString(const ATextCharType: TTextCharType): String;
 
@@ -58,8 +58,10 @@ resourcestring
   rsTextCharTypeUnknown = 'Text Char Type Unknown';
   rsTextCharTypeAnsi    = 'Text Char Type Ansi';
   rsTextCharTypeUTF8    = 'Text Char Type UTF8';
-  rsTextCharTypeUTF16   = 'Text Char Type UTF16';
-  rsTextCharTypeUTF32   = 'Text Char Type UTF32';
+  rsTextCharTypeUTF16BE = 'Text Char Type UTF16 Big Endian';
+  rsTextCharTypeUTF16LE = 'Text Char Type UTF16 Little Endian';
+  rsTextCharTypeUTF32BE = 'Text Char Type UTF32 Big Endian';
+  rsTextCharTypeUTF32LE = 'Text Char Type UTF32 Little Endian';
 
 type
 { TTextCharacter }
@@ -102,8 +104,10 @@ begin
     tctUnknown: Result:= rsTextCharTypeUnknown;
     tctAnsi:    Result:= rsTextCharTypeAnsi;
     tctUTF8:    Result:= rsTextCharTypeUTF8;
-    tctUTF16:   Result:= rsTextCharTypeUTF16;
-    tctUTF32:   Result:= rsTextCharTypeUTF32;
+    tctUTF16BE: Result:= rsTextCharTypeUTF16BE;
+    tctUTF16LE: Result:= rsTextCharTypeUTF16LE;
+    tctUTF32BE: Result:= rsTextCharTypeUTF32BE;
+    tctUTF32LE: Result:= rsTextCharTypeUTF32LE;
   end;
 end;
 

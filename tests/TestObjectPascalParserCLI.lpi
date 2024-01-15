@@ -98,6 +98,7 @@
       <Unit1>
         <Filename Value="tests/opp.tests.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Tests"/>
       </Unit1>
       <Unit2>
         <Filename Value="text/testobjectpascalparsertextsourcefile.pas"/>

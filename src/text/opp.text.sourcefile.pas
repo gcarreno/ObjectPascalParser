@@ -23,6 +23,7 @@ type
     FFilename: String;
     FSourceFileStream: TFileStream;
     FFileType: TTextFileType;
+    FFileHasBOM: Boolean;
 
     function GetStreamSize: Int64;
   protected
@@ -38,6 +39,8 @@ type
       read FFileType;
     property Size: Int64
       read GetStreamSize;
+    property FileHasBOM: Boolean
+      read FFileHasBOM;
   published
   end;
 
@@ -50,6 +53,10 @@ implementation
 { TTextSourceFile }
 
 constructor TTextSourceFile.Create(const AFileName: String);
+var
+  buffer: Byte;
+  bytesread: Int64;
+  BOMTest: String;
 begin
   FSourceFileStream:= nil;
   if not FileExists(AFileName) then raise ETextSourceFileDoesNotExist.Create(
@@ -63,7 +70,159 @@ begin
   FFilename:= AFileName;
   FSourceFileStream:= TFileStream.Create(AFileName, fmOpenRead);
   { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
-  FFileType:= tftAnsi;
+  BOMTest:= EmptyStr;
+
+  FFileType:= tftUnknown;
+  FFileHasBOM:= False;
+  buffer:= 0;
+
+  // For UTF32
+  FSourceFileStream.Position:= 0; // Just in case
+  BOMTest:= EmptyStr;
+  if FSourceFileStream.Size >= 4 then
+  begin
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    if BOMTest = cBOMUTF32BE then
+    begin
+      FFileType:= tftUTF32BE;
+      FFileHasBOM:= True;
+    end
+    else
+    if BOMTest = cBOMUTF16LE then
+    begin
+      FFileType:= tftUTF32LE;
+      FFileHasBOM:= True;
+    end
+  end;
+
+  // For UTF8
+  FSourceFileStream.Position:= 0; // Just in case
+  BOMTest:= EmptyStr;
+  if FSourceFileStream.Size >= 3 then
+  begin
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    if Copy(BOMTest, 1, 3) = cBOMUTF8 then
+    begin
+      FFileType:= tftUTF8;
+      FFileHasBOM:= True;
+    end;
+  end;
+
+  // For UTF16
+  FSourceFileStream.Position:= 0; // Just in case
+  BOMTest:= EmptyStr;
+  if FSourceFileStream.Size >= 2 then
+  begin
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    bytesread:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+    if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(
+      Format(
+        rsETextSourceFilePrematureEOF,
+        [ FFilename ]
+      )
+    );
+    BOMTest:= BOMTest + Char(buffer);
+
+    if Copy(BOMTest, 1, 2) = cBOMUTF16BE then
+    begin
+      FFileType:= tftUTF16BE;
+      FFileHasBOM:= True;
+    end
+    else
+    if Copy(BOMTest, 1, 2) = cBOMUTF16LE then
+    begin
+      FFileType:= tftUTF16LE;
+      FFileHasBOM:= True;
+    end;
+  end;
+
+  case FFileType of
+      tftUnknown: begin
+        { #todo 999 -ogcarreno : We are assuming this for the time being }
+        FFileType:= tftUTF8;
+        FSourceFileStream.Position:= 0;
+      end;
+      tftUTF8: begin
+        FSourceFileStream.Position:= 3;
+      end;
+      tftUTF16BE, tftUTF16LE: begin
+        FSourceFileStream.Position:= 2;
+      end;
+      tftUTF32BE, tftUTF32LE: begin
+        FSourceFileStream.Position:= 4;
+      end;
+  end;
+
+
 end;
 
 destructor TTextSourceFile.Destroy;
@@ -131,6 +290,10 @@ begin
         if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
         Result.Value := Result.Value + Char(buffer);
       end;
+      otherwise
+        { #todo 999 -ogcarreno : This is temporary since it does not account for UTF16 nor UTF32 }
+        Result.&Type:= tctAnsi;
+        Result.Value := Char(buffer);
     end;
   end;
 end;

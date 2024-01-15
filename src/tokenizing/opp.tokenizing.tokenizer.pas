@@ -80,7 +80,7 @@ begin
   FCurrentToken.&Type:= ttUndefined;
   FCurrentToken.Line:= FLine;
   FCurrentToken.Row:= FRow;
-  FCurrentToken.Element:= EmptyStr;
+  FCurrentToken.Element:= UnicodeString(EmptyStr);
 end;
 
 procedure TTokenizingTokenizer.FillTokenWithEOL(const ADoIncrement: Boolean);
@@ -102,7 +102,7 @@ begin
   FCurrentToken.&Type:= ttEOF;
   FCurrentToken.Line:= FLine;
   FCurrentToken.Row:= FRow;
-  FCurrentToken.Element:= EmptyStr;
+  FCurrentToken.Element:= UnicodeString(EmptyStr);
 end;
 
 function TTokenizingTokenizer.ProcessCharacter(

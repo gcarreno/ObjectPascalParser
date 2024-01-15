@@ -44,7 +44,7 @@ function TokenTypeToString(const ATokenType: TTokenType): String;
     &Type: TTokenType;
     Line: Int64;
     Row: Int64;
-    Element: String;
+    Element: UnicodeString;
   end;
 
 

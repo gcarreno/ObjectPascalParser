@@ -61,7 +61,7 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 0', 0, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -79,7 +79,7 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 1', 1, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -97,7 +97,7 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 1', 1, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -115,7 +115,7 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 2', 2, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -133,7 +133,7 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 1', 1, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 2', 2, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -151,13 +151,13 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is LF', cEOLLF, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is LF', UnicodeString(cEOLLF), FToken.Element);
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -175,13 +175,13 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is CR', cEOLCR, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is CR', UnicodeString(cEOLCR), FToken.Element);
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);
@@ -199,13 +199,13 @@ begin
     AssertEquals('Tokenizing Tokenizer Token Type is EOL', TokenTypeToString(ttEOL), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is CRLF', cEOLCRLF, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is CRLF', UnicodeString(cEOLCRLF), FToken.Element);
     FToken:= FTokenisingTokenizer.GetNextToken;
     AssertEquals('Tokenizing Tokenizer Token Error is None', TokenErrorToString(teNone), TokenErrorToString(FToken.Error));
     AssertEquals('Tokenizing Tokenizer Token Type is EOF', TokenTypeToString(ttEOF), TokenTypeToString(FToken.&Type));
     AssertEquals('Tokenizing Tokenizer Token Line is 2', 2, FToken.Line);
     AssertEquals('Tokenizing Tokenizer Token Row is 0', 0, FToken.Row);
-    AssertEquals('Tokenizing Tokenizer Token Element is Empty', EmptyStr, FToken.Element);
+    AssertEquals('Tokenizing Tokenizer Token Element is Empty', UnicodeString(EmptyStr), FToken.Element);
   finally
     FTokenisingTokenizer.Free;
     DeleteFile(FSourceFile.Filename);

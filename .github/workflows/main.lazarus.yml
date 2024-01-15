@@ -1,4 +1,4 @@
-name: Lazarus Main Workflow
+name: OPP Main Workflow
 
 permissions:
   contents: write

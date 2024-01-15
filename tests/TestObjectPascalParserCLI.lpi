@@ -23,7 +23,7 @@
             <Filename Value="../bin/TestObjectPascalParserCLI"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
+            <IncludeFiles Value="../src;$(ProjOutDir)"/>
             <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
@@ -58,7 +58,7 @@
             <Filename Value="../bin/TestObjectPascalParserCLI"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
+            <IncludeFiles Value="../src;$(ProjOutDir)"/>
             <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
@@ -71,7 +71,6 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
-              <RunWithoutDebug Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
           </Linking>
@@ -178,7 +177,7 @@
       <Filename Value="../bin/TestObjectPascalParserCLI"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="../src;$(ProjOutDir)"/>
       <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>

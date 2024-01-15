@@ -1,11 +1,6 @@
 unit TestObjectPascalParserTextSourceFile;
 
-{$IFDEF FPC}
-  {$mode objfpc}{$H+}
-  {$IFNDEF WINDOWS}
-    {$codepage UTF8}
-  {$ENDIF}
-{$ENDIF}
+{$I objectpascalparser.inc}
 
 interface
 
@@ -243,7 +238,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;

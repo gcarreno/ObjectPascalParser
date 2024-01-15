@@ -1,11 +1,8 @@
 program TestObjectPascalParserCLI;
 
-{$IFDEF FPC}
-  {$mode objfpc}{$H+}
-  {$IFNDEF WINDOWS}
-    {$codepage UTF8}
-  {$ENDIF}
-{$ELSE}
+{$I objectpascalparser.inc}
+
+{$IFNDEF FPC}
   {$apptype console}
 {$ENDIF}
 

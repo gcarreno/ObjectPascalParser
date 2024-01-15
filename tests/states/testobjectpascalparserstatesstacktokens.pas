@@ -1,11 +1,6 @@
 unit TestObjectPascalParserStatesStackTokens;
 
-{$IFDEF FPC}
-  {$mode objfpc}{$H+}
-  {$IFNDEF WINDOWS}
-    {$codepage UTF8}
-  {$ENDIF}
-{$ENDIF}
+{$I objectpascalparser.inc}
 
 interface
 

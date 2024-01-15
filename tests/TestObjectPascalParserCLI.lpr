@@ -10,6 +10,7 @@ uses
 , TestObjectPascalParserStatesStackTokens
 , TestObjectPascalParserTokenizingTokenizer
 , TestObjectPascalParserTokenizingTokenizerEOF
+, TestObjectPascalParser, OPP.Parser
 ;
 
 type

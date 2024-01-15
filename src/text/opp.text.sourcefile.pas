@@ -62,7 +62,7 @@ begin
   { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
   FFilename:= AFileName;
   FSourceFileStream:= TFileStream.Create(AFileName, fmOpenRead);
-  { #todo 999 -ogcarreno : This need to change, but for the current code it will do }
+  { #todo 999 -ogcarreno : This needs to be BOM and UTF aware!! }
   FFileType:= tftAnsi;
 end;
 
@@ -79,7 +79,6 @@ end;
 
 function TTextSourceFile.GetNextChar: TTextCharacter;
 var
-  { #todo 999 -ogcarreno : This need to change, but for the current code it will do }
   buffer: Byte;
   bytesRead: Int64;
 begin

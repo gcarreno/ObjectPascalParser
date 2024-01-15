@@ -24,7 +24,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -59,7 +59,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+            <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
             <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -90,7 +90,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="16">
       <Unit0>
         <Filename Value="TestObjectPascalParserCLI.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -157,6 +157,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="TestObjectPascalParserTokenizingTokenizerEOF"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="parser/testobjectpascalparser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TestObjectPascalParser"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="../src/parser/opp.parser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OPP.Parser"/>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -166,7 +176,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing"/>
+      <OtherUnitFiles Value="tests;text;../src/text;states;../src/states;tokenizing;../src/tokenizing;parser;../src/parser"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>

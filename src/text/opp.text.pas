@@ -36,7 +36,6 @@ resourcestring
   rsTextCharTypeUTF32   = 'Text Char Type UTF32';
 
 type
-{ #todo 999 -ogcarreno : Determine if a union is possible or best }
 { TTextCharacter }
   TTextCharacter = record
     &Type: TTextCharType;

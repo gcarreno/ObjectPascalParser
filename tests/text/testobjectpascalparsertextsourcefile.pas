@@ -120,37 +120,37 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
+    AssertEquals('Text Source File Next Char is p', UnicodeString('p'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is o', 'o', nextChar.Value);
+    AssertEquals('Text Source File Next Char is o', UnicodeString('o'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is g', 'g', nextChar.Value);
+    AssertEquals('Text Source File Next Char is g', UnicodeString('g'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is a', 'a', nextChar.Value);
+    AssertEquals('Text Source File Next Char is a', UnicodeString('a'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is m', 'm', nextChar.Value);
+    AssertEquals('Text Source File Next Char is m', UnicodeString('m'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
@@ -173,62 +173,62 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', Ord(tctAnsi), Ord(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
+    AssertEquals('Text Source File Next Char is p', UnicodeString('p'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is o', 'o', nextChar.Value);
+    AssertEquals('Text Source File Next Char is o', UnicodeString('o'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is g', 'g', nextChar.Value);
+    AssertEquals('Text Source File Next Char is g', UnicodeString('g'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is a', 'a', nextChar.Value);
+    AssertEquals('Text Source File Next Char is a', UnicodeString('a'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is m', 'm', nextChar.Value);
+    AssertEquals('Text Source File Next Char is m', UnicodeString('m'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is Space', ' ', nextChar.Value);
+    AssertEquals('Text Source File Next Char is Space', UnicodeString(' '), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is T', 'T', nextChar.Value);
+    AssertEquals('Text Source File Next Char is T', UnicodeString('T'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is e', 'e', nextChar.Value);
+    AssertEquals('Text Source File Next Char is e', UnicodeString('e'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is s', 's', nextChar.Value);
+    AssertEquals('Text Source File Next Char is s', UnicodeString('s'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is t', 't', nextChar.Value);
+    AssertEquals('Text Source File Next Char is t', UnicodeString('t'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
@@ -290,62 +290,62 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
+    AssertEquals('Text Source File Next Char is p', UnicodeString('p'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is o', 'o', nextChar.Value);
+    AssertEquals('Text Source File Next Char is o', UnicodeString('o'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is g', 'g', nextChar.Value);
+    AssertEquals('Text Source File Next Char is g', UnicodeString('g'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is r', 'r', nextChar.Value);
+    AssertEquals('Text Source File Next Char is r', UnicodeString('r'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is a', 'a', nextChar.Value);
+    AssertEquals('Text Source File Next Char is a', UnicodeString('a'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is m', 'm', nextChar.Value);
+    AssertEquals('Text Source File Next Char is m', UnicodeString('m'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is Space', ' ', nextChar.Value);
+    AssertEquals('Text Source File Next Char is Space', UnicodeString(' '), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is T', 'T', nextChar.Value);
+    AssertEquals('Text Source File Next Char is T', UnicodeString('T'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is e', 'e', nextChar.Value);
+    AssertEquals('Text Source File Next Char is e', UnicodeString('e'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is s', 's', nextChar.Value);
+    AssertEquals('Text Source File Next Char is s', UnicodeString('s'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is t', 't', nextChar.Value);
+    AssertEquals('Text Source File Next Char is t', UnicodeString('t'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;

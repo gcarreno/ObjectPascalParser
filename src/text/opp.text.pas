@@ -50,24 +50,20 @@ resourcestring
 
 type
 { TTextCharType }
-  TTextCharType = (tctUnknown, tctAnsi, tctUTF8, tctUTF16BE, tctUTF16LE, tctUTF32BE, tctUTF32LE);
+  TTextCharType = (tctUnknown, tctAnsi, tctCodePoint);
 
 function TextCharTypeToString(const ATextCharType: TTextCharType): String;
 
 resourcestring
-  rsTextCharTypeUnknown = 'Text Char Type Unknown';
-  rsTextCharTypeAnsi    = 'Text Char Type Ansi';
-  rsTextCharTypeUTF8    = 'Text Char Type UTF8';
-  rsTextCharTypeUTF16BE = 'Text Char Type UTF16 Big Endian';
-  rsTextCharTypeUTF16LE = 'Text Char Type UTF16 Little Endian';
-  rsTextCharTypeUTF32BE = 'Text Char Type UTF32 Big Endian';
-  rsTextCharTypeUTF32LE = 'Text Char Type UTF32 Little Endian';
+  rsTextCharTypeUnknown   = 'Text Char Type Unknown';
+  rsTextCharTypeAnsi      = 'Text Char Type Ansi';
+  rsTextCharTypeCodePoint = 'Text Char Type Code Point';
 
 type
 { TTextCharacter }
   TTextCharacter = record
     &Type: TTextCharType;
-    Value: String;
+    Value: UnicodeString;
     EOF: Boolean;
   end;
 
@@ -101,13 +97,9 @@ end;
 function TextCharTypeToString(const ATextCharType: TTextCharType): String;
 begin
   case ATextCharType of
-    tctUnknown: Result:= rsTextCharTypeUnknown;
-    tctAnsi:    Result:= rsTextCharTypeAnsi;
-    tctUTF8:    Result:= rsTextCharTypeUTF8;
-    tctUTF16BE: Result:= rsTextCharTypeUTF16BE;
-    tctUTF16LE: Result:= rsTextCharTypeUTF16LE;
-    tctUTF32BE: Result:= rsTextCharTypeUTF32BE;
-    tctUTF32LE: Result:= rsTextCharTypeUTF32LE;
+    tctUnknown:   Result:= rsTextCharTypeUnknown;
+    tctAnsi:      Result:= rsTextCharTypeAnsi;
+    tctCodePoint: Result:= rsTextCharTypeCodePoint;
   end;
 end;
 

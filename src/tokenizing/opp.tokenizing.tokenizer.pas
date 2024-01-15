@@ -216,77 +216,12 @@ begin
           end;
         end;
       end;
-      tctUTF8:begin
-        { #todo 999 -ogcarreno : Implement UTF8 character }
-        if Utf8ToAnsi(FCurrentChar.Value) = FCurrentChar.Value then
-        begin
-          FCurrentChar.Value := Utf8ToAnsi(FCurrentChar.Value);
-          case ProcessCharacter(FCurrentChar) of
-            lfNone:begin
-              // Do Nothing
-            end;
-            lfBreak:begin
-              break;
-            end;
-            lfContinue:begin
-              continue;
-            end;
-          end;
-        end
-        else
-        begin
-          { #todo 999 -ogcarreno : Does this need to take into account the state? }
-          FCurrentToken.Element:= FCurrentToken.Element + FCurrentChar.Value;
-          continue;
-        end;
-      end;
-      tctUTF16BE:begin
-        { #todo 999 -ogcarreno : Implement UTF16BE character }
+      tctCodePoint:begin
         case ProcessCharacter(FCurrentChar) of
           lfNone:begin
-            // Do Nothing
-          end;
-          lfBreak:begin
-            break;
-          end;
-          lfContinue:begin
+            { #todo 999 -ogcarreno : This needs to be re-evaluated with state }
+            FCurrentToken.Element:= FCurrentToken.Element + FCurrentChar.Value;
             continue;
-          end;
-        end;
-      end;
-      tctUTF16LE:begin
-        { #todo 999 -ogcarreno : Implement UTF16LE character }
-        case ProcessCharacter(FCurrentChar) of
-          lfNone:begin
-            // Do Nothing
-          end;
-          lfBreak:begin
-            break;
-          end;
-          lfContinue:begin
-            continue;
-          end;
-        end;
-      end;
-      tctUTF32BE:begin
-        { #todo 999 -ogcarreno : Implement UTF32BE character }
-        case ProcessCharacter(FCurrentChar) of
-          lfNone:begin
-            // Do Nothing
-          end;
-          lfBreak:begin
-            break;
-          end;
-          lfContinue:begin
-            continue;
-          end;
-        end;
-      end;
-      tctUTF32LE:begin
-        { #todo 999 -ogcarreno : Implement UTF32LE character }
-        case ProcessCharacter(FCurrentChar) of
-          lfNone:begin
-            // Do Nothing
           end;
           lfBreak:begin
             break;

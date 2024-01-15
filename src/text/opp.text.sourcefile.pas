@@ -56,6 +56,7 @@ constructor TTextSourceFile.Create(const AFileName: String);
 var
   buffer: TBytes;
 begin
+  buffer:= nil;
   FSourceFileStream:= nil;
   if not FileExists(AFileName) then raise ETextSourceFileDoesNotExist.Create(
     Format(
@@ -186,17 +187,19 @@ end;
 
 function TTextSourceFile.GetNextChar: TTextCharacter;
 var
-  buffer: Byte;
-  bytesRead: Int64;
+  buffer: TBytes;
+  bytesRead: LongInt;
 begin
+  buffer:= nil;
+
   Result.&Type:= tctUnknown;
   Result.Value := '';
   Result.EOF:= False;
 
-  buffer:= 0;
 
   // Get next char(s) and fill record
-  bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+  SetLength(buffer, 1);
+  bytesRead:= FSourceFileStream.Read(buffer[0], Length(buffer));
   if bytesRead = 0 then
   begin
     Result.EOF:= True;
@@ -211,60 +214,54 @@ begin
         // ?!?
       end;
       tftUTF8:begin
-        case buffer of
+        case buffer[0] of
           $00..$7F:begin
             Result.&Type:= tctAnsi;
-            Result.Value := Char(buffer);
+            Result.Value := UnicodeString(StringOf(buffer));
           end;
           $C2..$DF:begin
-            Result.&Type:= tctUTF8;
-            Result.Value := Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            Result.&Type:= tctCodePoint;
+            SetLength(buffer, 2);
+            FSourceFileStream.Position:= FSourceFileStream.Position - 1;
+            bytesRead:= FSourceFileStream.Read(buffer[0], Length(buffer));
             if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
+            Result.Value:= UnicodeString(StringOf(buffer));
           end;
           $E0, $E1..$EF:begin
-            Result.&Type:= tctUTF8;
-            Result.Value := Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            Result.&Type:= tctCodePoint;
+            SetLength(buffer, 3);
+            FSourceFileStream.Position:= FSourceFileStream.Position - 1;
+            bytesRead:= FSourceFileStream.Read(buffer[0], Length(buffer));
             if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
+            Result.Value:= UnicodeString(StringOf(buffer));
           end;
           $F0, $F1..$F3, $F4:begin
-            Result.&Type:= tctUTF8;
-            Result.Value := Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
+            Result.&Type:= tctCodePoint;
+            SetLength(buffer, 4);
+            FSourceFileStream.Position:= FSourceFileStream.Position - 1;
+            bytesRead:= FSourceFileStream.Read(buffer[0], Length(buffer));
             if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
-            bytesRead:= FSourceFileStream.Read(buffer, SizeOf(buffer));
-            if bytesRead = 0 then raise ETextSourceFilePrematureEOF.Create(rsETextSourceFilePrematureEOF);
-            Result.Value := Result.Value + Char(buffer);
+            Result.Value:= UnicodeString(StringOf(buffer));
           end;
           otherwise
             Result.&Type:= tctAnsi;
-            Result.Value := Char(buffer);
+            Result.Value := UnicodeString(StringOf(buffer));
         end;
       end;
       tftUTF16BE:begin
-        Result.&Type:= tctUTF16BE;
+        Result.&Type:= tctCodePoint;
         // Need to read the next byte of the character
       end;
       tftUTF16LE:begin
-        Result.&Type:= tctUTF16LE;
+        Result.&Type:= tctCodePoint;
         // Need to read the next byte of the character
       end;
       tftUTF32BE:begin
-        Result.&Type:= tctUTF32BE;
+        Result.&Type:= tctCodePoint;
         // Need to read the next 3 bytes of the character
       end;
       tftUTF32LE:begin
-        Result.&Type:= tctUTF32LE;
+        Result.&Type:= tctCodePoint;
         // Need to read the next 3 bytes of the character
       end;
     end;

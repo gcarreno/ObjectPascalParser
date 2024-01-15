@@ -30,6 +30,10 @@ type
     procedure TestObjectPascalParserTextSourceFileFilename;
     procedure TestObjectPascalParserTextSourceGetNextCharAnsi;
     procedure TestObjectPascalParserTextSourceGetNextCharUTF8;
+    procedure TestObjectPascalParserTextSourceGetNextCharUTF16BE;
+    procedure TestObjectPascalParserTextSourceGetNextCharUTF16LE;
+    procedure TestObjectPascalParserTextSourceGetNextCharUTF32BE;
+    procedure TestObjectPascalParserTextSourceGetNextCharUTF32LE;
     procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF8;
     procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF16BE;
     procedure TestObjectPascalParserTextSourceGetNextCharBOMUTF16LE;
@@ -46,6 +50,11 @@ uses
 const
   cSourceFileContentAnsi       = 'program';
   cSourceFileContentUTF8       = 'program Test🌟';
+  cSourceFileContentUTF16BE    = #0'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm';
+  cSourceFileContentUTF16LE    = 'p'#0'r'#0'o'#0'g'#0'r'#0'a'#0'm'#0;
+  cSourceFileContentUTF32BE    = #0#0#0'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm';
+  cSourceFileContentUTF32LE    = 'p'#0#0#0'r'#0#0#0'o'#0#0#0'g'#0#0#0'r'#0#0#0'a'#0#0#0'm'#0#0#0;
+
   cSourceFileContentBOMUTF8    = #$EF#$BB#$BF'program Test🌟';
   cSourceFileContentBOMUTF16BE = #$FE#$FF;
   cSourceFileContentBOMUTF16LE = #$FF#$FE;
@@ -146,7 +155,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', Unicodestring(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -223,17 +232,51 @@ begin
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
-    AssertEquals('Text Source File Next Char Type is UTF8', TextCharTypeToString(tctUTF8), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is 🌟', '🌟', nextChar.Value);
+    AssertEquals('Text Source File Next Char Type is CodePoint', TextCharTypeToString(tctCodePoint), TextCharTypeToString(nextChar.&Type));
+    AssertEquals('Text Source File Next Char is 🌟', UnicodeString('🌟'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
   end;
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharUTF16BE;
+//var
+//  nextChar: TTextCharacter;
+begin
+  //Fail('Implement Next Char UTF16BE');
+  {FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentUTF16BE));
+  try
+    AssertEquals('Text Source File is UTF16BE', TextFileTypeToString(tftUTF16BE), TextFileTypeToString(FSourceFile.FileType));
+    AssertFalse('Text Source File Has BOM is False', FSourceFile.HasBOM);
+
+    nextChar:= FSourceFile.GetNextChar;
+    AssertEquals('Text Source File Next Char Type is Ansi', Ord(tctAnsi), Ord(nextChar.&Type));
+    AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
+    AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
+  finally
+    FSourceFile.Free;
+  end;}
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharUTF16LE;
+begin
+  //Fail('Implement Next Char UTF16LE');
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharUTF32BE;
+begin
+  //Fail('Implement Next Char UTF32BE');
+end;
+
+procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharUTF32LE;
+begin
+  //Fail('Implement Next Char UTF32LE');
 end;
 
 procedure TTestObjectPascalParserTextSourceFile.TestObjectPascalParserTextSourceGetNextCharBOMUTF8;
@@ -306,13 +349,13 @@ begin
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
-    AssertEquals('Text Source File Next Char Type is UTF8', TextCharTypeToString(tctUTF8), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is 🌟', '🌟', nextChar.Value);
+    AssertEquals('Text Source File Next Char Type is UTF8', TextCharTypeToString(tctCodePoint), TextCharTypeToString(nextChar.&Type));
+    AssertEquals('Text Source File Next Char is 🌟', UnicodeString('🌟'), nextChar.Value);
     AssertFalse('Text Source File Next Char Not EOF', nextChar.EOF);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -330,7 +373,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -348,7 +391,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -366,7 +409,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;
@@ -384,7 +427,7 @@ begin
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Unknown', TextCharTypeToString(tctUnknown), TextCharTypeToString(nextChar.&Type));
-    AssertEquals('Text Source File Next Char is empty', EmptyStr, nextChar.Value);
+    AssertEquals('Text Source File Next Char is empty', UnicodeString(EmptyStr), nextChar.Value);
     AssertTrue('Text Source File Next Char is EOF', nextChar.EOF);
   finally
     FSourceFile.Free;

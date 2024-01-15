@@ -54,7 +54,8 @@ begin
   FSourceFile:= TTextSourceFile.Create(DumpToTempFile(''));
   try
     AssertNotNull('Text Source File is not null', FSourceFile);
-    // Assert file is of type tftUTF8
+    AssertEquals('Text Source File is UTF8', TextFileTypeToString(tftUTF8), TextFileTypeToString(FSourceFile.FileType));
+    AssertFalse('Text Source File Has BOM is False', FSourceFile.HasBOM);
   finally
     DeleteFile(FSourceFile.Filename);
     FSourceFile.Free;
@@ -83,6 +84,8 @@ begin
   tmpFilename:= DumpToTempFile('');
   FSourceFile:= TTextSourceFile.Create(tmpFilename);
   try
+    AssertEquals('Text Source File is UTF8', TextFileTypeToString(tftUTF8), TextFileTypeToString(FSourceFile.FileType));
+    AssertFalse('Text Source File Has BOM is False', FSourceFile.HasBOM);
     AssertEquals('Text Source File Filename', tmpFilename, FSourceFile.Filename);
   finally
     FSourceFile.Free;
@@ -95,6 +98,9 @@ var
 begin
   FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentAnsi));
   try
+    AssertEquals('Text Source File is UTF8', TextFileTypeToString(tftUTF8), TextFileTypeToString(FSourceFile.FileType));
+    AssertFalse('Text Source File Has BOM is False', FSourceFile.HasBOM);
+
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));
     AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
@@ -145,6 +151,9 @@ var
 begin
   FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentUTF8));
   try
+    AssertEquals('Text Source File is UTF8', TextFileTypeToString(tftUTF8), TextFileTypeToString(FSourceFile.FileType));
+    AssertFalse('Text Source File Has BOM is False', FSourceFile.HasBOM);
+
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', Ord(tctAnsi), Ord(nextChar.&Type));
     AssertEquals('Text Source File Next Char is p', 'p', nextChar.Value);
@@ -225,8 +234,8 @@ var
 begin
   FSourceFile:= TTextSourceFile.Create(DumpToTempFile(cSourceFileContentBOMUTF8));
   try
-    AssertTrue('Text Source File Has BOM', FSourceFile.FileHasBOM);
     AssertEquals('Text Source File is UTF8', TextFileTypeToString(tftUTF8), TextFileTypeToString(FSourceFile.FileType));
+    AssertTrue('Text Source File Has BOM', FSourceFile.HasBOM);
 
     nextChar:= FSourceFile.GetNextChar;
     AssertEquals('Text Source File Next Char Type is Ansi', TextCharTypeToString(tctAnsi), TextCharTypeToString(nextChar.&Type));

@@ -23,7 +23,7 @@ type
     FFilename: String;
     FSourceFileStream: TFileStream;
     FFileType: TTextFileType;
-    FFileHasBOM: Boolean;
+    FHasBOM: Boolean;
 
     function GetStreamSize: Int64;
   protected
@@ -39,8 +39,8 @@ type
       read FFileType;
     property Size: Int64
       read GetStreamSize;
-    property FileHasBOM: Boolean
-      read FFileHasBOM;
+    property HasBOM: Boolean
+      read FHasBOM;
   published
   end;
 
@@ -73,7 +73,7 @@ begin
   BOMTest:= EmptyStr;
 
   FFileType:= tftUnknown;
-  FFileHasBOM:= False;
+  FHasBOM:= False;
   buffer:= 0;
 
   // For UTF32
@@ -120,13 +120,13 @@ begin
     if BOMTest = cBOMUTF32BE then
     begin
       FFileType:= tftUTF32BE;
-      FFileHasBOM:= True;
+      FHasBOM:= True;
     end
     else
     if BOMTest = cBOMUTF16LE then
     begin
       FFileType:= tftUTF32LE;
-      FFileHasBOM:= True;
+      FHasBOM:= True;
     end
   end;
 
@@ -165,7 +165,7 @@ begin
     if Copy(BOMTest, 1, 3) = cBOMUTF8 then
     begin
       FFileType:= tftUTF8;
-      FFileHasBOM:= True;
+      FHasBOM:= True;
     end;
   end;
 
@@ -195,13 +195,13 @@ begin
     if Copy(BOMTest, 1, 2) = cBOMUTF16BE then
     begin
       FFileType:= tftUTF16BE;
-      FFileHasBOM:= True;
+      FHasBOM:= True;
     end
     else
     if Copy(BOMTest, 1, 2) = cBOMUTF16LE then
     begin
       FFileType:= tftUTF16LE;
-      FFileHasBOM:= True;
+      FHasBOM:= True;
     end;
   end;
 

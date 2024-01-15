@@ -57,21 +57,24 @@ var
   frmMain: TfrmMain;
 
 resourcestring
-  rsFormCaption = 'Object Pascal Parser Example';
+  rsFormCaption = 'Object Pascal Parser v%s Example';
 
 implementation
+
+{$R *.lfm}
 
 uses
   LCLType
 ;
 
-{$R *.lfm}
+const
+  cVersion = {$I version.inc};
 
 { TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  Caption:= rsFormCaption;
+  Caption:= Format(rsFormCaption, [ cVersion ]) ;
   InitShortcuts;
   FParser:= nil;
 end;
